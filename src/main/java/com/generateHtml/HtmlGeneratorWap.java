@@ -13,7 +13,7 @@ import java.io.FileWriter;
  * @description HtmlGenerator
  * @date 2020/10/22
  */
-public class HtmlGenerator {
+public class HtmlGeneratorWap {
 
     public static void main(String[] args) {
         File file = new File("C:/Users/admin/Desktop/1022-4.xlsx");
@@ -84,7 +84,7 @@ public class HtmlGenerator {
 
     public static void generateFile(String html, String fileName) {
         try {
-            FileWriter fw = new FileWriter("C:/Users/admin/Desktop/test/pc/index" + fileName + ".html", true);
+            FileWriter fw = new FileWriter("C:/Users/admin/Desktop/test/wap/index" + fileName + ".html", true);
             fw.write(html);
             fw.flush();// flush()方法刷新缓冲区
             fw.close();
