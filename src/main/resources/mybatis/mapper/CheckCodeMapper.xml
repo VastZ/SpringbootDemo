@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoro.mapper.CheckCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.zoro.dto.CheckCode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="policycode" property="policycode" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="erp_code" property="erpCode" jdbcType="VARCHAR" />
+    <result column="turn_code" property="turnCode" jdbcType="VARCHAR" />
+    <result column="certcode" property="certcode" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, policycode, code, erp_code, turn_code, certcode, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from check_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from check_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zoro.dto.CheckCode" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into check_code (policycode, code, erp_code, 
+      turn_code, certcode, state
+      )
+    values (#{policycode,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{erpCode,jdbcType=VARCHAR}, 
+      #{turnCode,jdbcType=VARCHAR}, #{certcode,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoro.dto.CheckCode" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into check_code_relation2018
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="policycode != null" >
+        policycode,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="erpCode != null" >
+        erp_code,
+      </if>
+      <if test="turnCode != null" >
+        turn_code,
+      </if>
+      <if test="certcode != null" >
+        certcode,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="policycode != null" >
+        #{policycode,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="erpCode != null" >
+        #{erpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="turnCode != null" >
+        #{turnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="certcode != null" >
+        #{certcode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoro.dto.CheckCode" >
+    update check_code
+    <set >
+      <if test="policycode != null" >
+        policycode = #{policycode,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="erpCode != null" >
+        erp_code = #{erpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="turnCode != null" >
+        turn_code = #{turnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="certcode != null" >
+        certcode = #{certcode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoro.dto.CheckCode" >
+    update check_code
+    set policycode = #{policycode,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      erp_code = #{erpCode,jdbcType=VARCHAR},
+      turn_code = #{turnCode,jdbcType=VARCHAR},
+      certcode = #{certcode,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertList" >
+
+    insert into check_code_relation2018 (policycode, code, erp_code,
+    turn_code, certcode, state
+    )
+    values
+    <foreach collection ="list" item="checkCode" separator =",">
+      (#{checkCode.policycode,jdbcType=VARCHAR}, #{checkCode.code,jdbcType=VARCHAR},
+       #{checkCode.erpCode,jdbcType=VARCHAR}, #{checkCode.turnCode,jdbcType=VARCHAR},
+       #{checkCode.certcode,jdbcType=VARCHAR}, #{checkCode.state,jdbcType=TINYINT})
+    </foreach >
+  </insert>
+</mapper>

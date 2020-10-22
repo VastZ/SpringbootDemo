@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoro.mapper.QibaiduMapper">
+
+    <select id="getApplyInfo" resultType="com.alibaba.fastjson.JSONObject">
+      SELECT
+        wa.accountName,
+                wa.uuid,
+                wa.userType,
+                wa.state,
+                wa.applyMoney,
+                wa.moneyType,
+                wa.transfee700,
+                wa.note,
+                ac.uuid AS acUuid,
+                ac.accountBalance,
+                v.uuid AS logUuid,
+                v.description,
+                v.nowBalance,
+                v.operType
+        FROM
+                (
+                        SELECT
+                        a.accountName,
+                        a.uuid,
+                        a.userType,
+                        a.userUuid,
+                        a.applyMoney,
+                        a.moneyType,
+                        a.transfee700,
+                        a.state,
+                        a.note
+                        FROM
+                        withdraw_apply a
+                        WHERE
+                        a.accountName = #{name}
+                        AND a.applyMoney =  #{applyMoney}
+                        AND a.state = '1'
+                ) wa
+        LEFT JOIN customer_account ac ON wa.userUuid = ac.customeruuid
+        LEFT JOIN virtual_account_customer_log v ON v.customerUuid = wa.userUuid
+        WHERE
+        v.opertype = '1'
+        AND v.frozenState = '1'
+        AND v.operAmount = #{applyMoney};
+
+    </select>
+</mapper>
